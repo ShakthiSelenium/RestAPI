@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "2e643a0e-897a-4328-a936-b3cc11cfca50",
+		"name": "JIRACrudOperationschaining",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28284485"
+	},
+	"item": [
+		{
+			"name": "CreateIssueInJira",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response.json();\r",
+							"console.log(resp)\r",
+							"var issueid=resp.id\r",
+							"console.log(issueid)\r",
+							"pm.globals.set(\"issue_id\", issueid);\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"key\": \"{{key}}\"\r\n        },\r\n        \"summary\": \"{{summary}}\",\r\n        \"description\": \"{{description}}\",\r\n        \"issuetype\": {\r\n            \"name\": \"{{name}}\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{JiraURL}}/rest/api/2/issue/"
+			},
+			"response": []
+		},
+		{
+			"name": "EditissueBasedonIssueid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"description\": \"{{description1}}\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{JiraURL}}/rest/api/2/issue/{{issue_id}}"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteIssueBasedOnIssueid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{JiraURL}}/rest/api/2/issue/{{issue_id}}"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": {
+			"username": "rajashakthimurali@gmail.com",
+			"password": "ATATT3xFfGF0BcjuwILfryM_WdYs9pkAslM1aA4-MB7gbAyEa4M8Q6huiCwNMuZdwQLIF1wz-zyiBDBefmrNsGJm7Vcnm2CuivrxwIypKgcDdomGNvkiTySWhNFRYCK31ZFzhSp4tqzN7PU8N4NFyv0OsZGMGvDieeRbdTdRLRyiK6Mx056m_NY=DC8D2531"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
